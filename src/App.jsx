@@ -1,11 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from './hooks/useTheme';
-import Routes from './Routes';
+import CodeRunner from './pages/CodeRunner';
 
 function App() {
   return (
     <ThemeProvider>
-      <Routes />
+      <CodeRunner />
     </ThemeProvider>
   );
 }

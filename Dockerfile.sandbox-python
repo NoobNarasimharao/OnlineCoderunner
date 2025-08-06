@@ -1,0 +1,39 @@
+FROM python:3.10-alpine
+
+# Create sandbox user
+RUN addgroup -g 1003 -S sandbox && \
+    adduser -S sandbox -u 1003
+
+# Install security tools and dependencies
+RUN apk add --no-cache \
+    busybox-extras \
+    && rm -rf /var/cache/apk/*
+
+# Create sandbox directory
+WORKDIR /sandbox
+
+# Copy execution script
+COPY sandbox-executor.py ./
+
+# Install Python dependencies
+RUN pip install --no-cache-dir flask
+
+# Set permissions
+RUN chown -R sandbox:sandbox /sandbox
+
+# Switch to sandbox user
+USER sandbox
+
+# Set Python environment
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Expose execution port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+
+# Start sandbox executor
+CMD ["python", "sandbox-executor.py"] 
