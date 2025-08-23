@@ -29,8 +29,163 @@ services:
     volumes:
       - ./server.js:/app/server.js
       - ./package.json:/app/package.json
+    depends_on:
+      - sandbox-node
+      - sandbox-python
+      - sandbox-java
+      - sandbox-cpp
+      - sandbox-php
+      - sandbox-ruby
+      - sandbox-go
+      - sandbox-rust
+      - sandbox-typescript
     networks:
       - coderunner-network
+
+  # Sandbox services
+  sandbox-node:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-node
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  sandbox-python:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-python
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  sandbox-java:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-java
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  sandbox-cpp:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-cpp
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  sandbox-php:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-php
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  sandbox-ruby:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-ruby
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  sandbox-go:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-go
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  sandbox-rust:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-rust
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  sandbox-typescript:
+    build:
+      context: .
+      dockerfile: Dockerfile.sandbox-typescript
+    networks:
+      - coderunner-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    deploy:
+      resources:
+        limits:
+          memory: 256M
 
 networks:
   coderunner-network:
